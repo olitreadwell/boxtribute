@@ -28,4 +28,4 @@
 - `2026-08-05` test-coverage (currencySymbol util) — pr-opened-locally-verified (PR #1). Lesson: substantive CI is CircleCI, not on fork; verify locally.
 
 ## Mined gaps (discovered, not yet attempted)
-- `2026-09-09` docs trivial pass: broken links (README `/react/README.md`, front/README eslint URL, back/README Python-ORM.md) + typos (follow→following, spectaqle→spectaql, dicuss→discuss, methology→methodology, sizeing→sizing, miscellaneuos→miscellaneous) + grammar (We are use→We use) — status: proposed
+- `2026-09-09` docs trivial pass: broken links (README `/react/README.md`, front/README eslint URL, back/README Python-ORM.md) + typos (follow→following, spectaqle→spectaql, dicuss→discuss, methology→methodology, sizeing→sizing, miscellaneuos→miscellaneous) + grammar (We are use→We use) — status: pr-opened (PR #29, fork CI green)
