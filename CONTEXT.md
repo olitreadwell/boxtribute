@@ -1,5 +1,5 @@
 # boxwise/boxtribute context
-> refreshed 2026-09-09 | upstream default: master @ c0fabeab2
+> refreshed 2026-09-25 | upstream default: master @ 26581ded42
 
 ## Identity & policies
 - upstream: boxwise/boxtribute, default branch `master`, primary language TypeScript/Python, English-first (yes — README/CONTRIBUTING in English)
@@ -26,6 +26,8 @@
 
 ## Gap ledger (dedupe — READ FIRST, never re-pick)
 - `2026-08-05` test-coverage (currencySymbol util) — pr-opened-locally-verified (PR #1). Lesson: substantive CI is CircleCI, not on fork; verify locally.
+- `2026-09-25` docs trivial pass (ADR + auth docs): 21 genuine typos across 10 files (`docs/adr/*` + `docs/auth/public_sharing_of_statistics.md`) — pr-opened (PR #33, fork CI green: Copilot Setup Steps success, mergeable clean). Different files from PR #29.
 
 ## Mined gaps (discovered, not yet attempted)
 - `2026-09-09` docs trivial pass: broken links (README `/react/README.md`, front/README eslint URL, back/README Python-ORM.md) + typos (follow→following, spectaqle→spectaql, dicuss→discuss, methology→methodology, sizeing→sizing, miscellaneuos→miscellaneous) + grammar (We are use→We use) — status: pr-opened (PR #29, fork CI green)
+
