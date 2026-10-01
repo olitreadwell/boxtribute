@@ -159,6 +159,7 @@ export default function StockOverview({
                 size="md"
                 value={boxesOrItems}
                 onChange={handleBoxesOrItemsChange}
+                aria-label="Display by"
                 bg="white"
                 width="120px"
               >
