@@ -134,7 +134,7 @@ The following serves as a concept for a first implementation of the "link-sharin
 ### Front-end
 
 - the `statviz` folder already contains a public FE (showing the Dashboard at the route `/bases/X`)
-- when a shared-link URL is requested, FE issues a BE query to ask for link validitity, and, if positive, return the data and view info. The FE routes to the corresponding view (under `.../<code>/`)
+- when a shared-link URL is requested, FE issues a BE query to ask for link validity, and, if positive, return the data and view info. The FE routes to the corresponding view (under `.../<code>/`)
 
 #### UI considerations
 

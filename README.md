@@ -76,7 +76,7 @@ services:
 
 ## About Docker
 
-We use Docker containers to make it easy for everyone to spin up an development environment which is the same everywhere. In the [docker-compose configuration file](./docker-compose.yml) three Docker containers are specified - one for the MySQL database called `db`, one for the Flask back-end called `webapp` and one for the react front-end called `front`.
+We use Docker containers to make it easy for everyone to spin up a development environment which is the same everywhere. In the [docker-compose configuration file](./docker-compose.yml) three Docker containers are specified - one for the MySQL database called `db`, one for the Flask back-end called `webapp` and one for the react front-end called `front`.
 
 ## Development Database Seed
 
@@ -164,7 +164,7 @@ More labels can be found [here](./docs/qr/not-in-database).
 
 ## CircleCI
 
-We use CircleCI for automated testing of PRs and deployment to Google Cloud. To develop the CircleCI scripts you can run a CircleCI client locally. Please check out [the documentation](https://circleci.com/docs/2.0/local-cli/).
+We use CircleCI for automated testing of PRs and deployment to Google Cloud. To develop the CircleCI scripts you can run a CircleCI client locally. Please check out [the documentation](https://circleci.com/docs/local-cli/).
 
 The most important commands are
 
@@ -223,7 +223,7 @@ Here is a list of intro tutorials for each technologies / frameworks / languages
 
 #### Back-end
 
-- [Ariadne](https://ariadnegraphql.org/docs/flask-integration.html)
+- [Ariadne](https://ariadnegraphql.org/server/Integrations/flask-integration)
 - [Python 3.12](https://devguide.python.org/)
 - [Flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/layout/)
 - [PeeWee](http://docs.peewee-orm.com/en/latest/peewee/quickstart.html)
