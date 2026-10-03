@@ -8,7 +8,7 @@ Author: @pylipp
 
 ## Status
 
-Accepted. Implemention done in v2.9.5
+Accepted. Implementation done in v2.9.5
 
 ## Context or Problem Statement
 
@@ -29,7 +29,7 @@ We need a solution to implement **user guides** directly inside the frontend: se
 
 ### Option 1: React Joyride
 
-[react-joyride](https://docs.react-joyride.com/) is the most widely used React-native product tour library (~340k weekly npm downloads).
+[react-joyride](https://react-joyride.com/) is the most widely used React-native product tour library (~340k weekly npm downloads).
 
 **How it works**: Define an array of `Step` objects (each referencing a DOM target selector and content), render a single `<Joyride>` component with a `run` boolean, and optionally supply a `tooltipComponent` for full visual control.
 
