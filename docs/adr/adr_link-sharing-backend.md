@@ -36,7 +36,7 @@ We extend the boxtribute database by adding a `shareable_link` table. The v2-bac
 
 PP is a popular service for sharing secrets over the web: when provided with a secret, PP creates a URL that can be shared with others in order for them to view the secret. The URL can be configured to expire after a certain time or a certain number of views. Also at link creation one can set a passphrase that must be provided when viewing the secret. PP in its basic form can be used for free via [pwpush.com](https://pwpush.com/).
 
-PP provides a [REST API](https://pwpush.com/api/1.1/pushes/show.en.html) for programmatic interaction with the service.
+PP provides a [REST API](https://docs.pwpush.com/docs/api-v2/) for programmatic interaction with the service.
 
 #### Usage as link-sharing back-end
 

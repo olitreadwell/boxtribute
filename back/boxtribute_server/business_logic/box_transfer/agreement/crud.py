@@ -152,7 +152,7 @@ def create_transfer_agreement(
     organisation is identical to the target organisation.
     Raise a DuplicateTransferAgreement exception if the agreement requested to be
     created would not be unique.
-    Raise an InvalidTransferAgreementBase expection if any specified source/target base
+    Raise an InvalidTransferAgreementBase exception if any specified source/target base
     is not part of the source/target organisation.
     Raise InvalidTransferAgreementDates exception if valid_from is not earlier than
     valid_until.
