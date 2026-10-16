@@ -35,7 +35,7 @@ export const extractQrCodeFromUrl = (url): string | undefined => {
   // TODO: consider to also handle different boxtribute environment urls
   const rx = /.*barcode=(.*)/g;
   const arr = rx.exec(url);
-  // make sure there is no space arround qr code
+  // make sure there is no space around qr code
   return arr?.[1].trim();
 };
 

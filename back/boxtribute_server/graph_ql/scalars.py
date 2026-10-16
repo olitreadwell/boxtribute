@@ -34,7 +34,7 @@ def parse_datetime(value):
     # This returns a offset-naive datetime if value without "+XX:XX" suffix
     dt = datetime.fromisoformat(value)
     if dt.tzinfo is None:
-        # dt doesn't have any tzinfo (offset-naive), interprete it as UTC
+        # dt doesn't have any tzinfo (offset-naive), interpret it as UTC
         dt = dt.replace(tzinfo=timezone.utc)
     else:
         # dt is offset-aware, convert it to UTC

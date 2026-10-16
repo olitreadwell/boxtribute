@@ -56,7 +56,7 @@ const DistroSpots = ({
                 ) : null}
                 {distroSpot.distroEvents?.length > 0 ? (
                   <Text>
-                    <strong>Distibution Events: </strong>
+                    <strong>Distribution Events: </strong>
                   </Text>
                 ) : (
                   <Text>No Distribution Events</Text>

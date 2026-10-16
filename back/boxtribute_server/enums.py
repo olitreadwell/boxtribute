@@ -33,7 +33,7 @@ class PackingListEntryState(enum.IntEnum):
 
 
 class LocationType(enum.Enum):
-    """Indiciates which concrete type (classic Location, Distribution Spot, etc)
+    """Indicates which concrete type (classic Location, Distribution Spot, etc)
     a Location is."""
 
     ClassicLocation = "Warehouse"
