@@ -235,6 +235,7 @@ export default function BeneficiaryReachChart({
               type="date"
               size="md"
               value={from}
+              aria-label="From date"
               max={to}
               onChange={handleFromChange}
               width="auto"
@@ -246,6 +247,7 @@ export default function BeneficiaryReachChart({
               type="date"
               size="md"
               value={to}
+              aria-label="To date"
               min={from}
               max={date2String(new Date())}
               onChange={handleToChange}
@@ -255,6 +257,7 @@ export default function BeneficiaryReachChart({
           <Select
             size="md"
             value={metricMode}
+            aria-label="Metric"
             onChange={(e) => setMetricMode(e.target.value as MetricMode)}
             width="210px"
           >
@@ -264,6 +267,7 @@ export default function BeneficiaryReachChart({
           <Select
             size="md"
             value={breakdownMode}
+            aria-label="Breakdown by"
             onChange={(e) => setBreakdownMode(e.target.value as BreakdownMode)}
             width="110px"
           >
