@@ -617,8 +617,8 @@ describe("StockOverview", () => {
       // Calendar heading also reflects boxes count
       expect(screen.getByText("Box Creation over Time")).toBeInTheDocument();
 
-      // Switch to items count via the boxes/items native select (identified by its current display value)
-      const select = screen.getByDisplayValue("Boxes");
+      // Switch to items count via the boxes/items native select
+      const select = screen.getByRole("combobox", { name: "Display by" });
       await user.selectOptions(select, "itemsCount");
 
       // Ring now shows itemsCount values (10, 6, 14) and updated heading
@@ -629,6 +629,18 @@ describe("StockOverview", () => {
       });
       expect(screen.getByText("Instock Items")).toBeInTheDocument();
       expect(screen.getByText("Item Creation over Time")).toBeInTheDocument();
+    });
+  });
+
+  // -------------------------------------------------------------------------
+  // Accessible names of the display controls
+  // -------------------------------------------------------------------------
+
+  describe("accessibility of the display controls", () => {
+    it("exposes an accessible name for the boxes / items toggle", async () => {
+      renderStockOverview();
+
+      expect(await screen.findByRole("combobox", { name: "Display by" })).toBeInTheDocument();
     });
   });
 });
