@@ -33,7 +33,7 @@ What is the issue that we're seeing that is motivating this decision or change?
 
 ## Decision Drivers
 
-What are the key criterias on which the decision is based.
+What are the key criteria on which the decision is based.
 
 ## Considered Options
 

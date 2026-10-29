@@ -13,7 +13,7 @@ from boxtribute_server.routes import api_bp, app_bp, shared_bp
 def auth_service(module_mocker):
     """Patch any interaction with the Auth0 service for the scope of the
     `endpoint_tests` test module.
-    Mimick the requesting user in an appropriate way.
+    Mimic the requesting user in an appropriate way.
 
     This helps to run the module's tests offline, i.e. without the requirement to
     establish an actual connection to the Auth0 web service. Also the tests are

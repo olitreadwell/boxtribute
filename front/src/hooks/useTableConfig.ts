@@ -46,7 +46,7 @@ const serializeIds = (filters: string[]): string | null => {
 };
 
 // Configuration for URL parameter mapping
-// TODO: if we need to generlaize this for other tables, this should become a variable of the hook
+// TODO: if we need to generalize this for other tables, this should become a variable of the hook
 export const URL_FILTER_CONFIG = [
   { filterId: "product", urlParam: "product_ids" },
   { filterId: "state", urlParam: "state_ids" },

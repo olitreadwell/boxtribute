@@ -123,7 +123,7 @@ The most straightforward way seems to [replace Flask by its async counterpart Qu
 - add await to testing client (simple since it's centrally defined)
 - switch CORS package: instead of flask-cors, [quart-cors](https://github.com/pgjones/quart-cors) (maintained but only ~20 stars on GitHub; flask-cors has 850 stars)
 - switch ORM integration: we use peewee's builtin `FlaskDB` utility to tie Flask and the ORM together. I couldn't find a similar utility for Quart and peewee-async. Implementing it ourselves is not too tedious I suppose (borrowing from [quart-db](https://github.com/pgjones/quart-db)) but I'd prefer to use a community-proven package
-- **!!!** integrate it into the cloud: as an ASGI framework, [Quart cannot work with Google App Engine](https://stackoverflow.com/a/59277154/3865876) though some [claim it's possible](https://medium.com/analytics-vidhya/deploying-fastapi-application-in-google-app-engine-in-standard-environment-dc061d3277a) and `uvicorn` (most popular Python ASGI server implementation) documentation shows [how to setup an ASGI app with gunicorn](https://www.uvicorn.org/#running-with-gunicorn)
+- **!!!** integrate it into the cloud: as an ASGI framework, [Quart cannot work with Google App Engine](https://stackoverflow.com/a/59277154/3865876) though some [claim it's possible](https://medium.com/analytics-vidhya/deploying-fastapi-application-in-google-app-engine-in-standard-environment-dc061d3277a) and `uvicorn` (most popular Python ASGI server implementation) documentation shows [how to setup an ASGI app with gunicorn](https://uvicorn.dev/deployment/#gunicorn)
 
 ## Further reading
 

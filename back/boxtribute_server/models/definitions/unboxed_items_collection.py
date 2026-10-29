@@ -30,7 +30,7 @@ class UnboxedItemsCollection(Model):
     number_of_items = IntegerField(null=False, default=0)
 
     # TODO: suggest to remove the relation from UnboxedItemCollection to Location again
-    # It's most likely only requried to have them for DistributionEvents (since they are
+    # It's most likely only required to have them for DistributionEvents (since they are
     # kind of transient and should only exist in the Mobile Distro Context)
     # TODO: If we decide to do that, also ensure that the field (FK to location) is
     # removed again in the Database (DropApp migrations)
