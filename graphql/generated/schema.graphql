@@ -77,6 +77,15 @@ enum Language {
   de
   ar
   ckb
+  ur
+  ku
+  fa
+  ps
+  ti
+  am
+  ln
+  so
+  prs
 }
 
 enum TransferAgreementState {
@@ -161,6 +170,21 @@ enum PackingListEntryState {
   NotStarted
   PackingInProgress
   Packed
+}
+
+enum BoxSortField {
+  LabelIdentifier
+  LastModifiedOn
+  State
+  ProductName
+  CategoryName
+  ProductGender
+  SizeName
+  NumberOfItems
+  Weight
+  MonetaryValue
+  LocationName
+  Comment
 }
 scalar Datetime
 scalar Date
@@ -420,12 +444,16 @@ input BoxFromBoxCreationInput {
 }
 
 input BoxMoveInput {
-  labelIdentifiers: [String!]!
+  " Specify either label identifiers OR filters to find boxes to move "
+  labelIdentifiers: [String!]
+  filters: FilterBoxInput
   locationId: Int!
 }
 
 input BoxesTagsOperationInput {
-  labelIdentifiers: [String!]!
+  " Specify either label identifiers OR filters to find boxes to (un)assign tags to/from "
+  labelIdentifiers: [String!]
+  filters: FilterBoxInput
   tagIds: [Int!]!
 }
 
@@ -573,13 +601,11 @@ input DistributionEventCreationInput {
   plannedEndDateTime: Datetime
 }
 
-input ShipmentWhenPreparingUpdateInput {
+input BoxesShipmentAddInput {
   id: ID!
-  targetBaseId: Int
-  # label identifiers of boxes prepared for shipment
-  preparedBoxLabelIdentifiers: [String!]
-  # label identifiers of prepared boxes to be moved back to stock
-  removedBoxLabelIdentifiers: [String!]
+  " Specify either label identifiers OR filters to find boxes to add "
+  labelIdentifiers: [String!]
+  filters: FilterBoxInput
 }
 
 input ShipmentWhenReceivingUpdateInput {
@@ -621,12 +647,6 @@ input TagUpdateInput {
   type: TagType
 }
 
-input TagOperationInput {
-  id: ID!
-  resourceId: ID!
-  resourceType: TaggableResourceType!
-}
-
 input LinkCreationInput {
   baseId: Int!
   " By default, the link will expire after one week. If no timezone-offset information is passed (via +XX:XX suffix), the time is assumed to be in UTC "
@@ -644,14 +664,14 @@ type Mutation {
   " Update one or more properties of a box with specified label identifier. "
   updateBox(updateInput: BoxUpdateInput): Box
   updateMarkedForShipmentBox(updateInput: MarkedForShipmentBoxUpdateInput): Box
-  " Any boxes that are non-existing, already deleted, in a non-warehouse [`BoxState`]({{Types.BoxState}}) (MarkedForShipment, InTransit, Receiving, NotDelivered) and/or in a base that the user must not access are returned in the `BoxesResult.invalidBoxLabelIdentifiers` list. "
-  deleteBoxes(labelIdentifiers: [String!]!): DeleteBoxesResult
-  " Any boxes that are non-existing, already inside the requested location, inside a different base other than the one of the requested location, and/or in a base that the user must not access are returned in the `BoxesResult.invalidBoxLabelIdentifiers` list. "
+  " Any boxes that are non-existing, already deleted, in a non-warehouse [`BoxState`]({{Types.BoxState}}) (MarkedForShipment, InTransit, Receiving, NotDelivered) and/or in a base that the user must not access are returned in the `BoxesResult.invalidBoxLabelIdentifiers` list. Specify either label identifiers OR additional filters to find boxes for deletion. "
+  deleteBoxes(labelIdentifiers: [String!], filters: FilterBoxInput): DeleteBoxesResult
+  " Any boxes that are non-existing, already inside the requested location, inside a different base other than the one of the requested location, and/or in a base that the user must not access are returned in the `BoxesResult.invalidBoxLabelIdentifiers` list. Specify either label identifiers OR additional filters to find boxes to move. "
   moveBoxesToLocation(updateInput: BoxMoveInput): MoveBoxesResult
-  " Any boxes that are non-existing, deleted, already assigned to all of the requested tags, and/or in a base that's different from the tags' base are returned in the `BoxesTagsOperationResult.invalidBoxLabelIdentifiers` list. Errors about tags are listed in `BoxesTagsOperationResult.tagErrorInfo`. "
-  assignTagsToBoxes(updateInput: BoxesTagsOperationInput): BoxesTagsOperationResult
-  " Any boxes that are non-existing, deleted, already assigned to all of the requested tags, and/or in a base that's different from the tags' base are returned in the `BoxesTagsOperationResult.invalidBoxLabelIdentifiers` list. Errors about tags are listed in `BoxesTagsOperationResult.tagErrorInfo`. "
-  unassignTagsFromBoxes(updateInput: BoxesTagsOperationInput): BoxesTagsOperationResult
+  " Any boxes that are non-existing, deleted, already assigned to all of the requested tags, and/or in a base that's different from the tags' base are returned in the `BoxesTagsOperationResult.invalidBoxLabelIdentifiers` list. Errors about tags are listed in `BoxesTagsOperationResult.tagErrorInfo`. Specify either label identifiers OR additional filters to find boxes. "
+  assignTagsToBoxes(updateInput: BoxesTagsOperationInput): AssignTagsToBoxesResult
+  " Any boxes that are non-existing, deleted, already assigned to all of the requested tags, and/or in a base that's different from the tags' base are returned in the `BoxesTagsOperationResult.invalidBoxLabelIdentifiers` list. Errors about tags are listed in `BoxesTagsOperationResult.tagErrorInfo`. Specify either label identifiers OR additional filters to find boxes. "
+  unassignTagsFromBoxes(updateInput: BoxesTagsOperationInput): UnassignTagsFromBoxesResult
   " Create boxes by importing raw data. Prototypical! "
   createBoxes(creationInput: [BoxBulkCreationInput!]): CreateBoxesResult
   " Create box in a location by taking out items from an existing box "
@@ -672,10 +692,6 @@ type Mutation {
   updateTag(updateInput: TagUpdateInput): UpdateTagResult
   " Soft-delete tag with specified ID. "
   deleteTag(id: ID!): DeleteTagResult
-  " Assign a tag to a resource (box or beneficiary). If the resource already has this tag assigned, do nothing "
-  assignTag(assignmentInput: TagOperationInput): TaggableResource
-  " Remove a tag from a resource (box or beneficiary). If the resource does not have this tag assigned, do nothing "
-  unassignTag(unassignmentInput: TagOperationInput): TaggableResource
   " Any tags that are non-existing, already deleted, and/or in a base that the user must not access are returned in the `TagsResult.invalidTagIds` list. "
   deleteTags(ids: [Int!]!): DeleteTagsResult
 
@@ -690,8 +706,10 @@ type Mutation {
 
   " Create a new shipment between two bases. The specified transfer agreement must be in `Accepted` state. The client must be member of the specified source base. "
   createShipment(creationInput: ShipmentCreationInput): Shipment
-  " Add boxes to or remove boxes from the shipment during preparation on the source side. Only valid if shipment is in `Preparing` state. The client must be member of the shipment source base. "
-  updateShipmentWhenPreparing(updateInput: ShipmentWhenPreparingUpdateInput): Shipment
+  " Add boxes to the shipment during preparation on the source side. Only valid if shipment is in `Preparing` state. The client must be member of the shipment source base. Specify either label identifiers OR filters to find boxes. Any boxes that are not in the shipment's source base, deleted, or non-InStock are silently discarded."
+  addBoxesToShipment(updateInput: BoxesShipmentAddInput): Shipment
+  " Remove boxes from shipment(s) during preparation on the source side. Specify either label identifiers OR filters to find boxes. Any boxes that are not in `Preparing` shipments, non-MarkedForShipment, or in a base that the user is not authorized for are silently discarded. "
+  removeBoxesFromShipments(labelIdentifiers: [String!], filters: FilterBoxInput): [Box!]
   " Reconcile boxes or mark them as lost during shipment receival on the target side. Only valid if shipment is in `Receiving` state. If all boxes are reconciled, the state automatically updates to `Completed`. The client must be member of the shipment target base. "
   updateShipmentWhenReceiving(updateInput: ShipmentWhenReceivingUpdateInput): Shipment
   " Change state of specified shipment to `Canceled`. Only valid for shipments in `Preparing` state. Any boxes marked for shipment are moved back into stock. The client must be member of either source or target base of the shipment. "
@@ -799,6 +817,7 @@ type Query {
   box(labelIdentifier: String!): Box
   " Return page of non-deleted [`Boxes`]({{Types.Box}}) in base with specified ID. Optionally pass filters "
   boxes(baseId: ID!, paginationInput: PaginationInput, filterInput: FilterBoxInput): BoxPage!
+  boxRows(baseId: Int!, options: BoxRowOptions): BoxRowsResult!
   " Return [`QrCode`]({{Types.QrCode}}) with specified code (an MD5 hash in hex format of length 32), or an error in case of insufficient permission or missing resource. "
   qrCode(code: String!): QrCodeResult!
   qrExists(code: String): Boolean
@@ -820,6 +839,8 @@ type Query {
   productCategories: [ProductCategory!]!
   " Return all [`SizeRanges`]({{Types.SizeRange}}). "
   sizeRanges: [SizeRange!]!
+  " Return all [`Sizes`]({{Types.Size}}). "
+  sizes: [Size!]!
   " Return [`Beneficiary`]({{Types.Beneficiary}}) with specified ID. Accessible for clients who are members of the beneficiary's base "
   beneficiary(id: ID!): Beneficiary
   " Return all [`Beneficiaries`]({{Types.Beneficiary}}) that the client is authorized to view. Optionally pass filter. "
@@ -880,6 +901,46 @@ type UnboxedItemsCollection implements ItemsCollection {
   label: String
   location: Location
   distributionEvent: DistributionEvent
+}
+
+type BoxRow {
+  id: ID!
+  labelIdentifier: String!
+  numberOfItems: Int
+  comment: String
+  weight: Float
+  monetaryValue: Float
+  weightUnitSymbol: String
+  createdOn: Datetime
+  lastModifiedOn: Datetime
+  createdById: ID
+  createdByName: String
+  lastModifiedById: ID
+  lastModifiedByName: String
+  state: BoxState
+  productId: ID
+  productName: String
+  productGender: ProductGender
+  containsStandardProduct: Boolean
+  productCategoryId: ID
+  productCategoryName: String
+  sizeId: ID
+  sizeName: String
+  locationId: ID
+  locationName: String
+  shipmentId: ID
+  hasQrCode: Boolean
+  tagIds: [ID!]!
+}
+
+type BoxRowsResult {
+  " The page containing BoxRow data "
+  page: [BoxRow!]!
+  " All totals are computed based on the filters specified in the query input "
+  totalNumberOfBoxes: Int
+  totalNumberOfItems: Int
+  totalWeight: Float
+  totalMonetaryValue: Float
 }
 
 """
@@ -1393,6 +1454,17 @@ input FilterBeneficiaryInput {
   pattern: String
 }
 
+input BoxRowOptions {
+  " Index of the page requested, starting at 1 "
+  page: Int
+  " Size of the requested page. Default: 50. Clamped between 1 and 100. "
+  pageSize: Int
+  filters: FilterBoxInput
+  sortBy: BoxSortField
+  " Sorting order. Default: true "
+  descending: Boolean
+}
+
 """
 Optional filter values when retrieving [`Boxes`]({{Types.Box}}).
 If several fields are defined (not null/empty), they are combined into a filter expression using logical AND (i.e. the filter returns only elements for which *all* fields are true).
@@ -1400,9 +1472,13 @@ If several fields are defined (not null/empty), they are combined into a filter 
 input FilterBoxInput {
   " Filter for all boxes that have *one* of the specified states. "
   states: [BoxState!]
-  " Filter for all boxes that who were last modified on this date (incl.), or later. "
+  " Filter for all boxes that were created on this date (incl.), or later. "
+  createdFrom: Date
+  " Filter for all boxes that were created on this date (incl.), or earlier. "
+  createdUntil: Date
+  " Filter for all boxes that were last modified on this date (incl.), or later. "
   lastModifiedFrom: Date
-  " Filter for all boxes that who were last modified on this date (incl.), or earlier. "
+  " Filter for all boxes that were last modified on this date (incl.), or earlier. "
   lastModifiedUntil: Date
   productGender: ProductGender
   " Filter for all boxes that have *one* of the specified product genders. "
@@ -1414,10 +1490,16 @@ input FilterBoxInput {
   " Filter for all boxes that have *one* of the specified products. "
   productIds: [Int!]
   sizeId: Int
+  " Filter for all boxes that have *one* of the specified sizes. "
+  sizeIds: [Int!]
   " Filter for all boxes that have *at least one* of the specified tags. "
   tagIds: [Int!]
+  " Filter for all boxes that have *none* of the specified tags. "
+  excludedTagIds: [Int!]
   " Filter for all boxes that are in *one* of the specified locations. "
   locationIds: [Int!]
+  " Filter for all boxes with comment containing this pattern (case-insensitive). "
+  pattern: String
 }
 
 input FilterProductInput {
@@ -1632,9 +1714,14 @@ type InvalidNumberOfItemsError {
 type InvalidBaseError {
   ids: [Int!]!
 }
+type InvalidFilterInputError {
+  _: Boolean
+}
 
-union MoveBoxesResult = BoxesResult | InsufficientPermissionError | ResourceDoesNotExistError | UnauthorizedForBaseError | DeletedLocationError
-union DeleteBoxesResult = BoxesResult | InsufficientPermissionError
+union MoveBoxesResult = BoxesResult | InsufficientPermissionError | ResourceDoesNotExistError | UnauthorizedForBaseError | DeletedLocationError | InvalidFilterInputError
+union AssignTagsToBoxesResult = BoxesTagsOperationResult | InvalidFilterInputError
+union UnassignTagsFromBoxesResult = BoxesTagsOperationResult | InvalidFilterInputError
+union DeleteBoxesResult = BoxesResult | InsufficientPermissionError | InvalidFilterInputError
 union CreateBoxFromBoxResult = Box | InsufficientPermissionError | ResourceDoesNotExistError | UnauthorizedForBaseError | DeletedLocationError | DeletedBoxError | InvalidBoxStateError | InvalidNumberOfItemsError
 union CreateTagResult = Tag | InsufficientPermissionError | UnauthorizedForBaseError | InvalidColorError
 union UpdateTagResult = Tag | InsufficientPermissionError | ResourceDoesNotExistError | UnauthorizedForBaseError | EmptyNameError | DeletedTagError | InvalidColorError
