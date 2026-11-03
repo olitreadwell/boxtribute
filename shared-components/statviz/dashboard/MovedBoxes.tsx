@@ -188,6 +188,7 @@ export default function MovedBoxes({ isActive, products, categories, tags }: Mov
                 size="md"
                 value={direction}
                 onChange={handleDirectionChange}
+                aria-label="Direction"
                 bg="white"
                 width="140px"
               >
@@ -198,6 +199,7 @@ export default function MovedBoxes({ isActive, products, categories, tags }: Mov
                 size="md"
                 value={boxesOrItems}
                 onChange={handleBoxesOrItemsChange}
+                aria-label="Display by"
                 bg="white"
                 width="120px"
               >
