@@ -76,7 +76,7 @@ def unassign_box_from_distribution_event(box_label_identifier, distribution_even
     """Unassigns a box from a distribution event."""
     with db.database.atomic():
 
-        # TODO: consider to to do validation checks here, once
+        # TODO: consider to do validation checks here, once
         # business rules are finalised
 
         box = Box.get(Box.label_identifier == box_label_identifier)
@@ -270,7 +270,7 @@ def create_distribution_event(
         planned_end_date_time = planned_start_date_time
 
     """
-    TODO: ensure that distribution_spot_id is realy from a Distribution Spot
+    TODO: ensure that distribution_spot_id is really from a Distribution Spot
     and not from a Location
     """
 

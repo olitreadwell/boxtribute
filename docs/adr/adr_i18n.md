@@ -62,7 +62,7 @@ The two most popular i18n tools for React:
 - Uses ICU standard
 - Requires custom solution for translation file loading and locale detection
 - support for complex plurals, date formatting, and number formatting
-- CLI for message extraction and and Translation Management System (TMS) support
+- CLI for message extraction and Translation Management System (TMS) support
 - bundled size of 18kB (gzipped and minified)
 - supports IE11 & 2 most recent versions of Edge, Chrome, Firefox & Safari
 - using react-intl in React Native, make sure your runtime has built-in Intl support

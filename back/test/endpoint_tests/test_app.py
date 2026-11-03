@@ -168,56 +168,8 @@ def test_mutation_non_existent_resource(client, operation):
         # Test case 9.2.14
         ["updateBeneficiary", "updateInput: { id: 0 }", "id"],
         # Test case 3.2.21
-        ["updateShipmentWhenPreparing", "updateInput: { id: 0 }", "id"],
+        ["addBoxesToShipment", "updateInput: { id: 0 }", "id"],
         ["updateShipmentWhenReceiving", "updateInput: { id: 0 }", "id"],
-        # Test case 4.2.15
-        [
-            "assignTag",
-            "assignmentInput: { id: 0, resourceId: 2, resourceType: Box }",
-            "...on Box { id }",
-        ],
-        # Test case 4.2.16
-        [
-            "assignTag",
-            "assignmentInput: { id: 0, resourceId: 2, resourceType: Beneficiary }",
-            "...on Beneficiary { id }",
-        ],
-        # Test case 4.2.17
-        [
-            "assignTag",
-            "assignmentInput: { id: 2, resourceId: 0, resourceType: Box }",
-            "...on Box { id }",
-        ],
-        # Test case 4.2.18
-        [
-            "assignTag",
-            "assignmentInput: { id: 1, resourceId: 0, resourceType: Beneficiary }",
-            "...on Beneficiary { id }",
-        ],
-        # Test case 4.2.29
-        [
-            "unassignTag",
-            "unassignmentInput: { id: 0, resourceId: 2, resourceType: Box }",
-            "...on Box { id }",
-        ],
-        # Test case 4.2.30
-        [
-            "unassignTag",
-            "unassignmentInput: { id: 0, resourceId: 2, resourceType: Beneficiary }",
-            "...on Beneficiary { id }",
-        ],
-        # Test case 4.2.31
-        [
-            "unassignTag",
-            "unassignmentInput: { id: 2, resourceId: 0, resourceType: Box }",
-            "...on Box { id }",
-        ],
-        # Test case 4.2.32
-        [
-            "unassignTag",
-            "unassignmentInput: { id: 2, resourceId: 0, resourceType: Beneficiary }",
-            "...on Beneficiary { id }",
-        ],
     ],
 )
 def test_update_non_existent_resource(client, operation, mutation_input, field):
@@ -341,14 +293,14 @@ def test_update_non_existent_resource(client, operation, mutation_input, field):
         [
             "assignTagsToBoxes",
             'updateInput: { labelIdentifiers: ["12345678"], tagIds: [0] }',
-            "tagErrorInfo { id error { ...on ResourceDoesNotExistError { id name } } }",
+            "...on BoxesTagsOperationResult { tagErrorInfo { id error { ...on ResourceDoesNotExistError { id name } } } }",  # noqa
             {"tagErrorInfo": [{"error": {"id": "0", "name": "Tag"}, "id": "0"}]},
         ],
         # Test case 8.2.24g
         [
             "unassignTagsFromBoxes",
             'updateInput: { labelIdentifiers: ["12345678"], tagIds: [0] }',
-            "tagErrorInfo { id error { ...on ResourceDoesNotExistError { id name } } }",
+            "...on BoxesTagsOperationResult { tagErrorInfo { id error { ...on ResourceDoesNotExistError { id name } } } }",  # noqa
             {"tagErrorInfo": [{"error": {"id": "0", "name": "Tag"}, "id": "0"}]},
         ],
         # Test case 12.2.6

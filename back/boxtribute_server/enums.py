@@ -33,7 +33,7 @@ class PackingListEntryState(enum.IntEnum):
 
 
 class LocationType(enum.Enum):
-    """Indiciates which concrete type (classic Location, Distribution Spot, etc)
+    """Indicates which concrete type (classic Location, Distribution Spot, etc)
     a Location is."""
 
     ClassicLocation = "Warehouse"
@@ -108,6 +108,15 @@ class Language(enum.IntEnum):
     de = enum.auto()
     ar = enum.auto()
     ckb = enum.auto()
+    ur = 8
+    ku = enum.auto()
+    fa = enum.auto()
+    ps = enum.auto()
+    ti = enum.auto()
+    am = enum.auto()
+    ln = enum.auto()
+    so = enum.auto()
+    prs = enum.auto()
 
 
 class HumanGender(enum.Enum):
@@ -155,3 +164,18 @@ class ProductType(enum.IntEnum):
 class ShareableView(enum.IntEnum):
     StatvizDashboard = 1
     StockOverview = enum.auto()
+
+
+class BoxSortField(enum.IntEnum):
+    LabelIdentifier = 1
+    LastModifiedOn = enum.auto()
+    State = enum.auto()
+    ProductName = enum.auto()
+    CategoryName = enum.auto()
+    ProductGender = enum.auto()
+    SizeName = enum.auto()
+    NumberOfItems = enum.auto()
+    Weight = enum.auto()
+    MonetaryValue = enum.auto()
+    LocationName = enum.auto()
+    Comment = enum.auto()

@@ -4,7 +4,7 @@ import { vi } from "vitest";
  * Mocking the return value of the useAuth0 hook. This is needed to mock the authentication of a test user
  * To mock an authenticated user you have to
  * - add a mock of the path for imports by adding `vi.mock("@auth0/auth0-react")` at the top of your test file.
- * - mock the acctual hook by adding `const mockedUseAuth0 = vi.mocked(useAuth0);` in your testfile
+ * - mock the actual hook by adding `const mockedUseAuth0 = vi.mocked(useAuth0);` in your testfile
  * - set the return value of useAuth0 by passing mockedUseAuth0 to the function below.
  *
  * @param mockedUseAuth0 - The mocked useAuth0 hook whose return value needs to be set
