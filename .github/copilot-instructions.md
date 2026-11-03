@@ -287,7 +287,7 @@ The development database includes:
 ### Testing Files
 - `front/src/**/*.test.tsx` - Frontend test files
 - `back/test/` - Backend test files
-- `vitest.workspace.json` - Test runner configuration
+- `vitest.config.ts` - Test runner configuration
 
 ## Development Tips
 

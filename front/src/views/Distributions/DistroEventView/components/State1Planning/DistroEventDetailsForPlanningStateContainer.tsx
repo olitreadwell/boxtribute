@@ -397,7 +397,7 @@ const DistroEventDetailsForPlanningStateContainer = ({
         onUpdatePackingListEntry={onUpdatePackingListEntry}
       />
 
-      {/* TODO: Consider to extract this into a seperate component */}
+      {/* TODO: Consider to extract this into a separate component */}
       <Modal
         isOpen={addItemsToDistroEventsOverlayState.isOpen}
         onClose={addItemsToDistroEventsOverlayState.onClose}

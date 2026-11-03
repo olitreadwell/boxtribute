@@ -1,10 +1,10 @@
 import { IDetectedBarcode } from "@yudiel/react-qr-scanner";
 
 /**
- * Mocking the QrReader component in components/QrReader/QrReader by overriding the implemention of the component with a button.
+ * Mocking the QrReader component in components/QrReader/QrReader by overriding the implementation of the component with a button.
  * To mock the QrReader component you have to
  * - add a mock of the path for imports by adding `vi.mock("components/QrReader/QrReader")` at the top of your test file.
- * - mock the acctual component by adding `const mockedQrReader = vi.mocked(QrReader);` in your testfile
+ * - mock the actual component by adding `const mockedQrReader = vi.mocked(QrReader);` in your testfile
  * - to override the implementation of the component you need to pass the mockedQrReader above into the function below.
  *
  * If you then call this function, e.g. `mockImplementationOfQrReader(mockedQrReader, "NoBoxAssociatedWithQrCode");` in a test a

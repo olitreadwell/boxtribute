@@ -55,7 +55,7 @@ export const useUnassignTags = () => {
 
           setIsLoading(false);
 
-          // unassign fails since one ore more tags causes an error
+          // unassign fails since one or more tags causes an error
           if (tagErrorInfoArray && tagErrorInfoArray.length > 0 && showToasts) {
             triggerError({
               message: `Could not unassign ${tagErrorInfoArray.length === 1 ? "one tag" : "multiple tags"} from boxes. Try again?`,

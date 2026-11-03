@@ -62,7 +62,7 @@ services:
     stdin_open: true
     volumes:
       - .:/app
-      # this is a workaround to prevent host node_modules from accidently getting mounted in container
+      # this is a workaround to prevent host node_modules from accidentally getting mounted in container
       # in case you want to use node/npm both outside container for test/lint etc.
       - /app/node_modules
       - /app/front/node_modules
